@@ -1,0 +1,120 @@
+const perguntas = [
+  {
+    pergunta: "Qual é a forma correta?",
+    respostas: [
+      { texto: "Mais bem", correto: false },
+      { texto: "Melhor", correto: true },
+      { texto: "Mais melhor", correto: false },
+      { texto: "Bem mais melhor", correto: false }
+    ]
+  },
+  {
+    pergunta: "A palavra 'exceção' está corretamente escrita?",
+    respostas: [
+      { texto: "Sim", correto: true },
+      { texto: "Não", correto: false }
+    ]
+  },
+  {
+    pergunta: "Qual das frases está correta?",
+    respostas: [
+      { texto: "Houveram problemas na escola.", correto: false },
+      { texto: "Houve problemas na escola.", correto: true }
+    ]
+  },
+  {
+    pergunta: "Qual é o plural de 'cidadão'?",
+    respostas: [
+      { texto: "Cidadãos", correto: true },
+      { texto: "Cidadães", correto: false },
+      { texto: "Cidadões", correto: false }
+    ]
+  },
+  {
+    pergunta: "Qual é a classe gramatical da palavra 'feliz'?",
+    respostas: [
+      { texto: "Substantivo", correto: false },
+      { texto: "Verbo", correto: false },
+      { texto: "Adjetivo", correto: true },
+      { texto: "Advérbio", correto: false }
+    ]
+  }
+];
+
+let indiceAtual = 0;
+let pontuacao = 0;
+
+const inicio = document.getElementById('inicio');
+const quiz = document.getElementById('quiz');
+const resultado = document.getElementById('resultado');
+const perguntaEl = document.getElementById('pergunta');
+const respostasEl = document.getElementById('respostas');
+const botaoProximo = document.getElementById('botaoProximo');
+const pontuacaoEl = document.getElementById('pontuacao');
+
+function iniciarQuiz() {
+  inicio.classList.add('escondido');
+  quiz.classList.remove('escondido');
+  indiceAtual = 0;
+  pontuacao = 0;
+  mostrarPergunta();
+}
+
+function mostrarPergunta() {
+  limparEstado();
+  const atual = perguntas[indiceAtual];
+  perguntaEl.textContent = atual.pergunta;
+
+  atual.respostas.forEach(resp => {
+    const btn = document.createElement('button');
+    btn.textContent = resp.texto;
+    btn.classList.add('resposta');
+    if (resp.correto) btn.dataset.correto = resp.correto;
+    btn.addEventListener('click', selecionarResposta);
+    respostasEl.appendChild(btn);
+  });
+}
+
+function limparEstado() {
+  botaoProximo.classList.add('escondido');
+  respostasEl.innerHTML = '';
+}
+
+function selecionarResposta(e) {
+  const btn = e.target;
+  const correto = btn.dataset.correto === 'true';
+
+  if (correto) {
+    btn.classList.add('correto');
+    pontuacao++;
+  } else {
+    btn.classList.add('errado');
+  }
+
+  Array.from(respostasEl.children).forEach(b => {
+    if (b.dataset.correto === 'true') b.classList.add('correto');
+    b.disabled = true;
+  });
+
+  botaoProximo.classList.remove('escondido');
+}
+
+function proximaPergunta() {
+  indiceAtual++;
+  if (indiceAtual < perguntas.length) {
+    mostrarPergunta();
+  } else {
+    mostrarResultado();
+  }
+}
+
+function mostrarResultado() {
+  quiz.classList.add('escondido');
+  resultado.classList.remove('escondido');
+  pontuacaoEl.textContent = `${pontuacao} de ${perguntas.length}`;
+}
+
+function recomecarQuiz() {
+  resultado.classList.add('escondido');
+  inicio.classList.remove('escondido');
+}

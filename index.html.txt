@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz de Português</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div id="inicio">
+      <h1>Quiz de Português</h1>
+      <p>Teste seus conhecimentos de forma divertida!</p>
+      <button onclick="iniciarQuiz()">Começar Quiz</button>
+    </div>
+
+    <div id="quiz" class="escondido">
+      <h2 id="pergunta"></h2>
+      <div id="respostas" class="grade-botoes"></div>
+      <button id="botaoProximo" class="escondido" onclick="proximaPergunta()">Próxima</button>
+    </div>
+
+    <div id="resultado" class="escondido">
+      <h2>Quiz Finalizado!</h2>
+      <p>Sua pontuação: <span id="pontuacao"></span></p>
+      <button onclick="recomecarQuiz()">Jogar Novamente</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
